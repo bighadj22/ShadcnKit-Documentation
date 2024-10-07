@@ -1,0 +1,60 @@
+---
+title: 'Installing ShadcnKit'
+description: 'Get started with your ShadcnKit project'
+---
+
+# Installing ShadcnKit
+
+Ready to supercharge your Next.js development? Let's get ShadcnKit up and running!
+
+<Card title="Get ShadcnKit Now" icon="rocket" href="https://shadcnkit.com">
+  Accelerate your Next.js development with ShadcnKit. Pre-configured with Cloudflare, Logto, Stripe, and more!
+
+  <CardFooter>
+    <Button>Buy Now</Button>
+  </CardFooter>
+</Card>
+
+## Installation Steps
+
+Once you've purchased ShadcnKit, follow these simple steps to get started:
+
+1. Unzip the ShadcnKit file you received.
+2. Open the unzipped folder in VS Code.
+3. Open a terminal in VS Code.
+4. Run the following command to install dependencies:
+
+```bash
+npm install
+```
+
+5. Start the development server:
+
+```bash
+npm run dev
+```
+
+6. Open the `wrangler.toml` file in your project root and change the `name` field to your project name:
+
+```toml
+#:schema node_modules/wrangler/config-schema.json
+name = "your-project-name" # Change this to your project name
+compatibility_date = "2024-06-20"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
+```
+
+That's it! Your ShadcnKit project is now set up and customized for your use.
+
+## Next Steps
+
+Visit `http://localhost:3000` in your browser to see your ShadcnKit project in action!
+
+<Tip>
+  Remember to replace "your-project-name" in the wrangler.toml file with your actual project name.
+</Tip>
+
+<Tip>
+  Check the ShadcnKit documentation for detailed guides on further customizing your project and using all the integrated features.
+</Tip>
+

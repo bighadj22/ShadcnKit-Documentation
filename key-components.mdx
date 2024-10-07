@@ -1,0 +1,93 @@
+---
+title: 'Blog System in ShadcnKit'
+description: 'Understanding and using the built-in blog functionality in ShadcnKit'
+---
+
+# Blog System in ShadcnKit
+
+ShadcnKit comes with a pre-configured blog system that supports multiple languages and dynamic routing. This guide will help you understand its structure and how to use it.
+
+## Key Components
+
+1. **Content Management**
+   - `app/content/article.ts`: Defines the structure of blog posts
+   - `app/content/articles/`: Contains individual article content
+
+2. **Routing and Pages**
+   - `app/[locale]/blog/[slug]/page.tsx`: Dynamic route for individual blog posts
+   - `app/[locale]/blog/page.tsx`: Blog index page
+
+3. **Utility Functions**
+   - `app/content/functions/get-all-slugs.ts`: Generates slugs for all blog posts
+   - `app/content/functions/get-blog-slug.ts`: Retrieves blog posts by slug
+
+4. **SEO and Sitemap**
+   - `app/sitemap.ts`: Generates a sitemap for your blog
+   - `app/robots.ts`: Configures robots.txt for search engines
+
+## How It Works
+
+1. **Content Definition**: Blog posts are defined in `article.ts` with multilingual support.
+
+2. **Dynamic Routing**: The `[slug]` and `[locale]` parameters in the file structure enable dynamic routing for different languages and blog posts.
+
+3. **Content Retrieval**: The `getBlogs` function fetches the appropriate content based on the slug and locale.
+
+4. **SEO Optimization**: Metadata, sitemaps, and robots.txt are automatically generated for better search engine visibility.
+
+## Customization
+
+To add or modify blog posts:
+
+1. Create a new file in `app/content/articles/` for your blog post content.
+2. Add the blog post metadata to the `blogs` array in `app/content/article.ts`.
+3. Create translations for your blog post in the respective language files (e.g., `en.json`, `fr.json`, `ar.json`).
+
+## Internationalization
+
+The blog system supports multiple languages:
+
+- Content is stored with translations for each supported language.
+- The `[locale]` parameter in the URL determines the displayed language.
+- Translations are managed through JSON files in the `messages` directory.
+
+## SEO Features
+
+- Dynamic metadata generation for each blog post
+- Automatic sitemap generation including all blog posts
+- Configurable robots.txt for search engine crawling
+
+## Usage Example
+
+To create a new blog post:
+
+1. Add your content to a new file in `app/content/articles/`:
+
+```typescript
+export const NewBlogPost_en = `
+  <h1>Your Blog Post Title</h1>
+  <p>Your blog post content...</p>
+`;
+// Add translations for other languages
+```
+
+2. Update `app/content/article.ts`:
+
+```typescript
+export const blogs = [
+  // ... existing blog posts
+  {
+    id: 1,
+    name: {
+      en: "Your Blog Post Title",
+      // Add translations for other languages
+    },
+    slug: "your-blog-post-slug",
+    // ... other metadata
+  },
+];
+```
+
+3. The new blog post will automatically be available at `/[locale]/blog/your-blog-post-slug` and included in the sitemap.
+
+By leveraging this blog system, you can easily manage and expand your blog content within ShadcnKit, benefiting from built-in internationalization and SEO features.

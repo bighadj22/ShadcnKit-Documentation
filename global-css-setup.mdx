@@ -1,0 +1,141 @@
+---
+title: 'Styling and Theming'
+description: 'Customize the look and feel of your ShadcnKit project'
+---
+
+ShadcnKit uses a combination of Tailwind CSS and CSS variables for styling, allowing for easy customization and theme switching. This guide will walk you through the styling setup and how to customize it.
+
+## Global CSS Setup
+
+The global CSS file is located at `styles/globals.css`. This file contains the base styles and CSS variables for theming.
+
+### Customizing CSS Variables
+
+You can customize the theme by modifying the CSS variables. ShadcnKit uses a set of predefined variables for colors, spacing, and other design tokens.
+
+Here's an example of customized CSS variables:
+
+```css
+:root {
+  --background: 349 46% 95%;
+  --foreground: 349 5% 0%;
+  --card: 349 46% 90%;
+  --card-foreground: 349 5% 10%;
+  --popover: 349 46% 95%;
+  --popover-foreground: 349 95% 0%;
+  --primary: 349 100% 51%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 349 30% 70%;
+  --secondary-foreground: 0 0% 0%;
+  --muted: 311 30% 85%;
+  --muted-foreground: 349 5% 35%;
+  --accent: 311 30% 80%;
+  --accent-foreground: 349 5% 10%;
+  --destructive: 0 50% 30%;
+  --destructive-foreground: 349 5% 90%;
+  --border: 349 30% 50%;
+  --input: 349 30% 18%;
+  --ring: 349 100% 51%;
+  --radius: 1rem;
+}
+
+.dark {
+  --background: 349 46% 5%;
+  --foreground: 349 5% 90%;
+  --card: 349 46% 0%;
+  --card-foreground: 349 5% 90%;
+  --popover: 349 46% 5%;
+  --popover-foreground: 349 5% 90%;
+  --primary: 349 100% 51%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 349 30% 10%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 311 30% 15%;
+  --muted-foreground: 349 5% 60%;
+  --accent: 311 30% 15%;
+  --accent-foreground: 349 5% 90%;
+  --destructive: 0 50% 30%;
+  --destructive-foreground: 349 5% 90%;
+  --border: 349 30% 18%;
+  --input: 349 30% 18%;
+  --ring: 349 100% 51%;
+  --radius: 1rem;
+}
+```
+
+To apply these custom styles:
+
+1. Open `styles/globals.css`
+2. Replace the existing `:root` and `.dark` sections with your custom CSS variables
+
+## Theme Provider
+
+ShadcnKit uses Next.js' built-in theme support through the `next-themes` package. The theme provider is set up in `app/theme-provider.tsx`:
+
+```tsx
+'use client';
+
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import type { ThemeProviderProps } from 'next-themes/dist/types';
+import * as React from 'react';
+
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+}
+```
+
+This provider is then used in the root layout (`app/layout.tsx`) to enable theme switching:
+
+```tsx
+<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+  <main id="skip">{children}</main>
+</ThemeProvider>
+```
+
+## Customizing Themes
+
+To create custom themes or modify existing ones:
+
+1. Use the [Shadcn UI Theme Generator](https://zippystarter.com/tools/shadcn-ui-theme-generator) to generate your desired color scheme.
+2. Copy the generated CSS variables.
+3. Paste them into your `styles/globals.css` file, replacing or modifying the existing `:root` and `.dark` sections.
+
+## Using Themes in Components
+
+With the theme set up, you can use the theme variables in your components:
+
+```tsx
+const MyComponent = () => {
+  return (
+    <div className="bg-background text-foreground">
+      <h1 className="text-primary">Hello, themed world!</h1>
+    </div>
+  );
+};
+```
+
+## Switching Themes
+
+ShadcnKit provides a theme toggle component out of the box. To use it:
+
+```tsx
+import { ThemeToggle } from '@/components/theme-toggle';
+
+const MyPage = () => {
+  return (
+    <div>
+      <h1>My Themed Page</h1>
+      <ThemeToggle />
+    </div>
+  );
+};
+```
+
+## Best Practices
+
+1. Use Tailwind classes for most styling needs.
+2. Utilize the predefined CSS variables for consistent theming.
+3. Keep global styles minimal, preferring component-level styles when possible.
+4. Use the `dark:` variant in Tailwind classes for dark mode specific styles.
+
+By following this guide, you can easily customize the look and feel of your ShadcnKit project while maintaining the benefits of Tailwind CSS and easy theme switching.

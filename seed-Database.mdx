@@ -1,0 +1,70 @@
+---
+title: 'Seed Database and Generate Schema'
+description: 'Populate your D1 database and generate Drizzle schema for ShadcnKit'
+---
+
+# Seeding Your Database and Generating Schema
+
+After creating your D1 database, the next steps are to seed it with initial data and generate the Drizzle schema.
+
+## Seeding the Database
+
+ShadcnKit includes a `db/seed.sql` file with initial data. You'll need to modify this file to include your Logto user ID.
+
+1. Open `db/seed.sql` in your code editor.
+2. Find the line that inserts data into the `users` table.
+3. Replace the existing user ID with your Logto user ID:
+
+```sql
+INSERT INTO users (id, email, role)
+VALUES ('your-logto-user-id', 'your-email@example.com', 'admin');
+```
+
+<Tip>
+  To get your Logto user ID, refer to the [Logto documentation](https://docs.logto.io/).
+</Tip>
+
+Now, seed your database:
+
+For local development:
+
+```bash
+npx wrangler d1 execute your-database-name --file db/seed.sql --local
+```
+
+For production:
+
+```bash
+npx wrangler d1 execute your-database-name --file db/seed.sql --remote
+```
+
+Replace `your-database-name` with the name you chose when creating your D1 database.
+
+## Generating Drizzle Schema
+
+ShadcnKit uses Drizzle ORM, which requires a schema file. While a pre-generated schema is included, you can regenerate it if needed:
+
+1. Find your local database file:
+
+```bash
+find .wrangler/state/v3/d1 -name "*.sqlite"
+```
+
+2. Copy the path of the `.sqlite` file.
+
+3. Generate the schema:
+
+```bash
+npx drizzle-kit introspect:sqlite --driver=libsql --out=./db --url="file:path/to/your/database.sqlite"
+```
+
+Replace `path/to/your/database.sqlite` with the path you copied in step 2.
+
+This command will generate (or update) the `schema.ts` file in your `db` directory.
+
+<Note>
+  ShadcnKit already includes a pre-generated `schema.ts`. You only need to regenerate it if you've made changes to your database structure.
+</Note>
+
+You've now seeded your database and ensured your Drizzle schema is up to date. Your ShadcnKit project is ready for development!
+

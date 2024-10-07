@@ -1,0 +1,149 @@
+---
+title: 'Facebook Pixel and Conversion API Setup '
+description: 'Configure Facebook tracking for your ShadcnKit project'
+---
+
+ShadcnKit integrates Facebook Pixel for client-side tracking and Facebook Conversion API for server-side tracking. This guide will walk you through the setup process.
+
+## 1. Obtain Facebook Pixel ID and Access Token
+
+1. Go to your Facebook Business Manager.
+2. Create a new Pixel or use an existing one.
+3. Note down your Pixel ID.
+4. Generate an access token with permissions for the Conversion API.
+
+## 2. Add Environment Variables
+
+Add the following to your `.env` file:
+
+```env
+FACEBOOK_PIXEL_ID=your_facebook_pixel_id
+FACEBOOK_ACCESS_TOKEN=your_facebook_access_token
+```
+
+## 3. Facebook Pixel Setup (Client-side)
+
+ShadcnKit implements Facebook Pixel in `app/layout.tsx`:
+
+```tsx
+export default function RootLayout({ children, params: { locale } }: PropsWithChildren<{ params: { locale: string } }>) {
+  const facebookPixelId = process.env.FACEBOOK_PIXEL_ID;
+
+  return (
+    <html lang={locale}>
+      <head>
+        {facebookPixelId && (
+          <>
+            <Script id="meta-pixel-script" strategy="afterInteractive">
+              {`
+                !function(f,b,e,v,n,t,s)
+                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                n.queue=[];t=b.createElement(e);t.async=!0;
+                t.src=v;s=b.getElementsByTagName(e)[0];
+                s.parentNode.insertBefore(t,s)}(window,document,'script',
+                'https://connect.facebook.net/en_US/fbevents.js');
+                fbq('init', '${facebookPixelId}');
+                fbq('track', 'PageView');
+              `}
+            </Script>
+            <noscript>
+              <img
+                height="1"
+                width="1"
+                style={{ display: 'none' }}
+                src={`https://www.facebook.com/tr?id=${facebookPixelId}&ev=PageView&noscript=1`}
+                alt=""
+              />
+            </noscript>
+          </>
+        )}
+      </head>
+      {/* ... rest of the component */}
+    </html>
+  );
+}
+```
+
+This setup automatically tracks page views and allows you to track custom events using `fbq('track', 'EventName')` in your client-side code.
+
+## 4. Facebook Conversion API Setup (Server-side)
+
+ShadcnKit implements the Conversion API in two key files:
+
+### a. `app/api/logto-webhook/route.ts`
+
+This file handles user registration events:
+
+```typescript
+async function sendEventToFacebook(eventName: string, userData: any, customData: any, eventId: string) {
+  // ... implementation details ...
+}
+
+export async function POST(request: NextRequest) {
+  // ... other code ...
+
+  // Send event to Facebook Conversions API
+  try {
+    const userData = {
+      em: [hashData(userEmail)],
+      // ... other user data ...
+    };
+
+    const customData = {
+      registration_source: 'website',
+      user_type: 'new',
+    };
+
+    await sendEventToFacebook('CompleteRegistration', userData, customData, userId);
+  } catch (facebookError) {
+    console.error('Failed to send event to Facebook:', facebookError);
+  }
+
+  // ... rest of the function ...
+}
+```
+
+### b. `app/api/stripe-webhook/route.ts`
+
+This file handles purchase events:
+
+```typescript
+async function sendEventToFacebook(eventData: any) {
+  // ... implementation details ...
+}
+
+export async function POST(req: NextRequest) {
+  // ... other code ...
+
+  case 'checkout.session.completed':
+    // ... other code ...
+    
+    // Send purchase event to Facebook Conversions API
+    if (checkoutSession.currency && checkoutSession.amount_total !== null) {
+      const facebookEventData = {
+        event_name: "Purchase",
+        // ... other event data ...
+      };
+
+      await sendEventToFacebook(facebookEventData);
+    }
+
+  // ... rest of the function ...
+}
+```
+
+## 5. Testing Your Setup
+
+1. Use Facebook's Event Testing Tool to verify Pixel events.
+2. Use the Test Events feature in Facebook's Event Manager to verify Conversion API events.
+3. Make test purchases and registrations to ensure events are being sent correctly.
+
+## Benefits of This Setup
+
+- **Improved Tracking Accuracy**: By using both Pixel and Conversion API, you ensure more accurate event tracking, even with ad blockers or cookie restrictions.
+- **Better Ad Performance**: More accurate data leads to better ad targeting and performance.
+- **Compliance**: Server-side tracking can help with privacy compliance by giving you more control over what data is sent to Facebook.
+
+Remember to always comply with data protection regulations and obtain necessary user consents for tracking.

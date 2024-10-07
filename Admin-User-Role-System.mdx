@@ -1,0 +1,116 @@
+---
+title: 'Admin User Role System in ShadcnKit'
+description: 'Understanding and implementing admin roles in your ShadcnKit project'
+---
+
+# Admin User Role System in ShadcnKit
+
+ShadcnKit comes with a built-in admin role system that allows you to create protected areas and functionality for administrators. This system is integrated with the authentication flow and provides a simple way to manage admin access across your application.
+
+## Key Features
+
+1. **Role-Based Access Control**: Easily restrict access to certain pages and features.
+2. **Integration with Logto**: Admin roles are seamlessly integrated with the Logto authentication system.
+3. **Flexible Implementation**: Can be easily extended to include more roles or permissions.
+4. **Admin-Only Pages**: Dedicated routes and components for admin users.
+
+## How It Works
+
+1. **Role Storage**: User roles are stored in the database, associated with each user.
+2. **Role Checking**: The `getUserRole` function retrieves a user's role from the database.
+3. **Access Control**: Admin-only pages and components check the user's role before rendering.
+
+## Implementation
+
+### 1. Database Schema
+
+Roles are typically stored in the user table:
+
+```typescript
+export const users = sqliteTable("users", {
+  id: text("id").primaryKey(),
+  email: text("email"),
+  role: text("role").default("user"),
+});
+```
+
+### 2. Role Retrieval
+
+The `getUserRole` function fetches the user's role:
+
+```typescript
+async function getUserRole(userId: string) {
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, userId),
+  });
+  return user?.role || 'user';
+}
+```
+
+### 3. Admin Page Protection
+
+Admin pages check the user's role before allowing access:
+
+```typescript
+export default async function AdminPage() {
+  const { isAuthenticated, claims } = await getLogtoContext(logtoConfig);
+  
+  if (!isAuthenticated || !claims?.sub) {
+    redirect('/');
+  }
+  
+  const userRole = await getUserRole(claims.sub);
+  if (userRole !== 'admin') {
+    redirect('/');
+  }
+
+  // Render admin page content
+}
+```
+
+## Using Admin Roles
+
+### In Components
+
+You can conditionally render components based on the user's role:
+
+```tsx
+function AdminOnlyComponent({ userRole }: { userRole: string }) {
+  if (userRole !== 'admin') return null;
+  return <div>Admin Only Content</div>;
+}
+```
+
+### In API Routes
+
+Protect API routes that should only be accessible to admins:
+
+```typescript
+export async function GET(request: NextRequest) {
+  const user = await requireAuth();
+  const userRole = await getUserRole(user.id);
+
+  if (userRole !== 'admin') {
+    return new Response('Unauthorized', { status: 403 });
+  }
+
+  // Handle admin-only API logic
+}
+```
+
+## Benefits
+
+1. **Security**: Ensures that sensitive areas are only accessible to authorized users.
+2. **Flexibility**: Easy to extend for more complex role systems if needed.
+3. **Consistency**: Provides a standardized way to handle admin access across the application.
+4. **User Experience**: Clear separation between regular user and admin functionalities.
+
+## Customization
+
+You can easily customize the admin role system:
+
+1. Add more roles (e.g., 'moderator', 'editor') in the database schema.
+2. Extend the `getUserRole` function to handle multiple roles.
+3. Implement more granular permissions within the admin role.
+
+By leveraging ShadcnKit's admin role system, you can easily create secure, role-specific areas in your application, ensuring that administrative functions are only accessible to authorized users.

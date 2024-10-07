@@ -1,0 +1,62 @@
+---
+title: 'Create D1 Database for ShadcnKit'
+description: 'Install Wrangler CLI and set up your D1 database'
+---
+
+# Creating a D1 Database for ShadcnKit
+
+Before creating your D1 database, you need to install the Wrangler CLI. Follow these steps:
+
+1. Install Wrangler CLI by running:
+
+```bash
+npm install -g wrangler
+```
+
+2. Authenticate Wrangler with your Cloudflare account:
+
+```bash
+wrangler login
+```
+
+Now that Wrangler is installed and authenticated, let's create your D1 database:
+
+3. Navigate to your ShadcnKit project directory in the terminal.
+
+4. Run the following command to create a new D1 database:
+
+```bash
+wrangler d1 create your-database-name
+```
+
+Replace `your-database-name` with a suitable name for your database.
+
+5. After running the command, you'll see output similar to this:
+
+```
+✅ Successfully created DB 'your-database-name'
+Created database 'your-database-name' at id: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+[[d1_databases]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "your-database-name"
+database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+```
+
+6. Copy the `[[d1_databases]]` block from the output.
+
+7. Open your `wrangler.toml` file in your project root.
+
+8. Paste the copied `[[d1_databases]]` block at the end of your `wrangler.toml` file:
+
+```toml
+# Your existing wrangler.toml content here
+
+[[d1_databases]]
+binding = "DB"
+database_name = "your-database-name"
+database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+```
+
+Your D1 database is now created and configured for use with your ShadcnKit project.
+

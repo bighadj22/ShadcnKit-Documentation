@@ -1,91 +1,137 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Kit",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/images/hero-dark.svg",
+    "light": "/images/hero-light.svg"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#ff174d",
+    "light": "#f9dce5",
+    "dark": "#2b0000",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#ff174d", 
+      "to": "#c44674"
     }
   },
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:contact@shadcnkit.com"
     }
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "url": "https://shadcnkit.com/en/dashboard"
   },
   "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
-    }
+    
   ],
   "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
+
     {
       "name": "Blog",
       "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://shadcnkit.com/en/blog"
     }
   ],
   "navigation": [
     {
       "group": "Get Started",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "Introduction"
+      ]
+    },
+
+    {
+      "group": "Prerequisites",
+      "pages": [
+        "Cloudflare" ,
+        "Logto" ,
+        "Stripe" ,
+        "Resend" 
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Installation",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "Install-ShadcnKit"
+      ]
+    },
+
+    {
+      "group": "Configuration",
+      "pages": [
+        "logto-Setup",
+        "Database-Setup",
+        "Seed-Database",
+        "stripe-Payment",
+        "setup-resend-",
+        "facebook-api-Setup"
+        
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Styling",
       "pages": [
-        "api-reference/introduction"
+        "global-css-setup"
+        
+      ]
+    },
+
+    {
+      "group": "Internationalization",
+      "pages": [
+        "internationalization"
+    
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Blog and SEO",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "key-components"
+    
+      ]
+    },
+
+    {
+      "group": "Built-in Feedback System ",
+      "pages": [
+        "how-it-works"
+    
+      ]
+    },
+
+    {
+      "group": "Onboarding System ",
+      "pages": [
+        "customizable-onboarding-system"
+    
+      ]
+    },
+
+    {
+      "group": "Protected Routes",
+      "pages": [
+        "Protected-Routes"
+    
+      ]
+    },
+
+    {
+      "group": "Admin-User Role System",
+      "pages": [
+        "Admin-User-Role-System"
+    
       ]
     }
+    
+    
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "x": "https://x.com",
+    "github": "https://github.com/",
+    "linkedin": "https://www.linkedin.com/"
   }
 }

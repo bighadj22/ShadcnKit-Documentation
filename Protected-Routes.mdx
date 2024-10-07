@@ -1,0 +1,98 @@
+---
+title: 'Protected Routes and API Authentication in ShadcnKit'
+description: 'Understanding how ShadcnKit secures pages and API routes using Logto'
+---
+
+# Protected Routes and API Authentication in ShadcnKit
+
+ShadcnKit integrates Logto for authentication, providing a secure way to protect both pages and API routes. This system ensures that only authenticated users can access certain parts of your application and make specific API calls.
+
+## Protected Pages
+
+### How It Works
+
+1. **Layout-based Protection**: The `app/[locale]/dashboard/layout.tsx` file acts as a gatekeeper for all dashboard routes.
+2. **Authentication Check**: It uses `getLogtoContext` to verify if the user is authenticated.
+3. **Redirection**: Unauthenticated users are automatically redirected to the home page.
+
+```tsx
+// Simplified example from app/[locale]/dashboard/layout.tsx
+export default async function DashboardLayout({ children, params: {locale} }) {
+  const { isAuthenticated } = await getLogtoContext(logtoConfig);
+
+  if (!isAuthenticated) {
+    redirect(`/${locale}`); 
+  }
+  
+  return (
+    // Render children if authenticated
+  );
+}
+```
+
+### Benefits
+
+- Centralized authentication check for all dashboard routes
+- Automatic redirection for unauthenticated users
+- Localization support integrated into the authentication flow
+
+## Protected API Routes
+
+### How It Works
+
+1. **Authentication Middleware**: The `lib/auth.ts` file provides utility functions for API authentication.
+2. **User Verification**: The `requireAuth` function checks if a user is authenticated and retrieves their information.
+3. **Error Handling**: Throws an error if the user is not authenticated, which can be caught and handled in API routes.
+
+```typescript
+// Simplified example from lib/auth.ts
+export async function requireAuth() {
+  const user = await getCurrentUser();
+  if (!user) {
+    throw new Error('Unauthenticated');
+  }
+  return user;
+}
+```
+
+### Usage in API Routes
+
+API routes use the `requireAuth` function to ensure only authenticated users can access them:
+
+```typescript
+// Simplified example from app/api/feedback/route.ts
+export const POST = withLogging(async (request: NextRequest) => {
+  try {
+    const user = await requireAuth();
+    // Process authenticated request
+  } catch (error) {
+    if (error instanceof Error && error.message === 'Unauthenticated') {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
+    }
+    // Handle other errors
+  }
+});
+```
+
+### Benefits
+
+- Consistent authentication across all API routes
+- Easy to implement and maintain
+- Provides user information for authenticated requests
+
+## Key Features
+
+1. **Seamless Integration**: Logto authentication is seamlessly integrated into both page routing and API calls.
+2. **Flexibility**: Easy to adjust protection levels for different routes or API endpoints.
+3. **User Context**: Authenticated routes have access to user information for personalization.
+4. **Localization Support**: Authentication flows respect the application's localization settings.
+
+## Customization
+
+You can easily customize the authentication behavior:
+
+1. Modify `lib/auth.ts` to add additional checks or user data retrieval.
+2. Adjust the redirect behavior in `app/[locale]/dashboard/layout.tsx` for unauthenticated users.
+3. Implement role-based access control by extending the `requireAuth` function.
+
+By leveraging ShadcnKit's authentication system, you can ensure that your application's sensitive areas and API endpoints are securely protected, providing a safe and personalized experience for your users.

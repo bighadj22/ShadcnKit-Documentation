@@ -1,0 +1,74 @@
+---
+title: 'Built-in Feedback System in ShadcnKit'
+description: 'Understand and utilize the integrated feedback collection system in your ShadcnKit project'
+---
+
+# Built-in Feedback System in ShadcnKit
+
+ShadcnKit comes with a pre-configured, customizable feedback system that allows you to collect and manage user feedback directly within your application. This system is designed to be easy to use, fully integrated with your project, and doesn't rely on third-party tools.
+
+## Key Features
+
+1. **Customizable Feedback Button**: A floating button that users can easily access.
+2. **Multi-language Support**: Translations for all feedback-related text.
+3. **Rating System**: Allow users to provide a star rating.
+4. **Categorized Feedback**: Users can select a category for their feedback.
+5. **Comment Field**: Space for users to provide detailed feedback.
+6. **D1 Database Integration**: All feedback is stored in your Cloudflare D1 database.
+7. **Admin Panel View**: Review and manage feedback directly in your admin dashboard.
+
+## How It Works
+
+1. **User Interface**: The `FeedbackButton` component renders a floating button on your pages.
+2. **Feedback Collection**: When a user submits feedback, it's sent to your API endpoint.
+3. **Data Storage**: Feedback is stored in the `feedback` table in your D1 database.
+4. **Admin Review**: You can view and manage feedback through your admin panel.
+
+## Benefits of the Built-in System
+
+1. **Data Ownership**: All feedback data is stored in your own database, giving you full control and ownership.
+2. **Customization**: Easily modify the feedback form to suit your specific needs.
+3. **Integration**: Seamlessly integrates with your existing user authentication and admin systems.
+4. **Cost-Effective**: No need for expensive third-party feedback tools.
+5. **Privacy-Focused**: Keep your users' feedback data within your own system.
+
+## Using the Feedback System
+
+To add the feedback button to your layout:
+
+```tsx
+import FeedbackButton from '@/components/FeedbackSideButton';
+
+// In your layout component
+<FeedbackButton 
+  translations={props.feedbackTranslations}
+  locale={props.locale || 'en'}
+/>
+```
+
+## Customizing the Feedback System
+
+You can customize the feedback system by modifying:
+
+1. `components/FeedbackSideButton.tsx`: Adjust the UI and behavior of the feedback button.
+2. `db/schema.ts`: Modify the `feedback` table structure if you need to collect additional data.
+3. Translation files: Update the feedback-related translations in your language JSON files.
+
+## Viewing Feedback
+
+Feedback can be viewed in your admin panel. The data is fetched from your D1 database, allowing you to:
+
+- View feedback entries
+- Filter feedback by category, rating, or date
+- Respond to feedback (if you implement this feature)
+- Export feedback data for further analysis
+
+## Why We Added This
+
+1. **Direct User Insights**: Gather valuable user feedback to improve your product.
+2. **Engagement**: Provide users with an easy way to communicate with you.
+3. **Proactive Issue Resolution**: Identify and address problems before they escalate.
+4. **Feature Prioritization**: Use feedback to guide your product roadmap.
+5. **Customer Satisfaction**: Show users that you value their input.
+
+By leveraging ShadcnKit's built-in feedback system, you can create a more user-centric application while maintaining full control over your data and user interactions.

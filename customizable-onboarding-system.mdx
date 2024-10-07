@@ -1,0 +1,78 @@
+---
+title: 'Onboarding System in ShadcnKit'
+description: 'Understand and utilize the integrated user onboarding system in your ShadcnKit project'
+---
+
+# Onboarding System in ShadcnKit
+
+ShadcnKit comes with a built-in, customizable onboarding system that helps you gather valuable information from new users. This system is designed to be user-friendly, fully integrated with your project, and provides insights through an admin dashboard.
+
+## Key Features
+
+1. **Multi-step Questionnaire**: Engaging interface for collecting user information.
+2. **Customizable Questions**: Easily modify or add questions to suit your needs.
+3. **D1 Database Integration**: All responses are stored in your Cloudflare D1 database.
+4. **Admin Dashboard**: Visualize and analyze onboarding data with charts and tables.
+5. **Localization Support**: Multi-language support for global applications.
+
+## How It Works
+
+1. **User Flow**:
+   - New user signs up
+   - Redirected to onboarding questionnaire
+   - Answers questions about experience, use case, etc.
+   - Responses saved to database
+   - User directed to main application
+
+2. **Data Collection**:
+   - Responses stored in `onboardingResponses` table in D1 database
+   - Includes user ID, timestamp, and answers to each question
+
+3. **Admin View**:
+   - Dedicated dashboard for viewing onboarding data
+   - Charts showing distribution of responses
+   - Table view of individual responses
+   - Filters and sorting options for data analysis
+
+## Key Components
+
+- `app/[locale]/onboarding/page.tsx`: Main onboarding page
+- `components/OnboardingClient.tsx`: Client-side onboarding interface
+- `app/api/onboarding/route.ts`: API route for saving onboarding responses
+- `app/[locale]/dashboard/admin/onboardings/page.tsx`: Admin dashboard for onboarding data
+
+## Benefits of the Onboarding System
+
+1. **User Understanding**: Gain insights into your user base from the start.
+2. **Personalization**: Use collected data to tailor user experience.
+3. **Product Development**: Inform feature priorities based on user needs.
+4. **Marketing Insights**: Understand how users find your product.
+5. **Engagement**: Start user interaction immediately after sign-up.
+
+## Customization
+
+You can easily customize the onboarding system:
+
+1. Modify questions in `components/OnboardingClient.tsx`
+2. Adjust database schema in `db/schema.ts` if adding new fields
+3. Update admin charts in `components/dashboard/onboarding/` to reflect new data points
+
+## Data Visualization
+
+The admin dashboard provides several charts:
+
+- Experience level distribution
+- Primary use case breakdown
+- User acquisition sources
+
+These visualizations help you quickly understand your user base at a glance.
+
+## Extensibility
+
+The onboarding system is designed to be easily extended:
+
+- Add new questions to gather more specific data
+- Create custom charts for specialized insights
+- Integrate with other parts of your application for personalized experiences
+
+By leveraging ShadcnKit's onboarding system, you can create a smooth introduction for new users while gathering valuable data to improve your product and user experience.

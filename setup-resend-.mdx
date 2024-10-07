@@ -1,0 +1,80 @@
+---
+title: 'Resend Email Setup'
+description: 'Configure Resend for transactional emails in your ShadcnKit project'
+---
+
+
+ShadcnKit uses Resend for sending transactional emails, including welcome emails to new users. This guide will walk you through setting up Resend for your project.
+
+## 1. Create a Resend Account
+
+1. Go to [Resend's website](https://resend.com) and sign up for an account.
+2. After signing up, you'll be directed to the Resend dashboard.
+
+## 2. Add and Verify Your Domain
+
+<Note>
+  If you're using Cloudflare for your domain, you can easily manage DNS records there for seamless integration with your ShadcnKit project.
+</Note>
+
+1. In the Resend dashboard, go to the "Domains" section.
+2. Click "Add Domain" and enter your domain name.
+3. Resend will provide you with DNS records to add to your domain:
+   - Add the provided DKIM record
+   - Add the provided Return-Path record
+   - Add the provided SPF record (or update existing one)
+
+4. If using Cloudflare, add these records in your Cloudflare DNS settings.
+5. Wait for Resend to verify your domain (this may take up to 24 hours).
+
+## 3. Get Your API Key
+
+1. In the Resend dashboard, go to the "API Keys" section.
+2. Create a new API key or copy your existing one.
+
+## 4. Add Resend API Key to Environment Variables
+
+Add the following to your `.env` file:
+
+```env
+RESEND_API_KEY=your_resend_api_key
+```
+
+Replace `your_resend_api_key` with the API key you copied from Resend.
+
+## 5. Customize Welcome Email Template
+
+ShadcnKit comes with a pre-configured welcome email template. You can customize it to fit your needs:
+
+1. Open `components/email/EmailTemplate.tsx`
+2. Modify the content, styling, or structure as needed.
+3. You can also customize the email signature in `components/email/EmailSignature.tsx`
+
+## How ShadcnKit Uses Resend
+
+ShadcnKit automatically sends a welcome email to new users when they sign up through Logto. This is handled in the Logto webhook (`app/api/logto-webhook/route.ts`).
+
+Benefits of sending welcome emails:
+- Immediately engage new users
+- Provide important getting started information
+- Establish a positive first impression
+- Reduce the likelihood of users forgetting about your service
+
+<Tip>
+  Resend allows you to track email opens and clicks, helping you understand user engagement with your welcome emails.
+</Tip>
+
+## Facebook Conversion API Integration
+
+ShadcnKit also sends a "CompleteRegistration" event to Facebook's Conversion API when a new user signs up. This helps track the effectiveness of your Facebook ads. We'll cover this in more detail in a separate guide.
+
+## Next Steps
+
+With Resend set up, your ShadcnKit project is ready to send professional, customized transactional emails. Consider expanding your email strategy to include:
+
+- Password reset emails
+- Account verification emails
+- Subscription confirmation emails
+- Product update newsletters
+
+Remember to always follow email best practices and comply with relevant regulations like GDPR and CAN-SPAM.

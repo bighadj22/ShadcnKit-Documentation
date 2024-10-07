@@ -1,0 +1,83 @@
+---
+title: 'Logto Setup for ShadcnKit'
+description: 'Configure Logto authentication and webhooks for your ShadcnKit project'
+---
+
+# Logto Setup for ShadcnKit
+
+ShadcnKit comes pre-configured with Logto for authentication and uses Cloudflare D1 as its database. This guide will help you set up Logto, create an admin user, and configure webhooks to save user data in your D1 database.
+
+## 1. Create a Logto Application
+
+1. Log in to your Logto account.
+2. Create a new application for your ShadcnKit project.
+3. Note down the following credentials:
+   - App ID
+   - App Secret
+   - Logto Endpoint
+
+## 2. Configure Environment Variables
+
+Add the following to your `.env` file:
+
+```env
+LOGTO_ENDPOINT=https://auth.shadcnkit.com/
+LOGTO_APP_ID=your_app_id
+LOGTO_APP_SECRET=your_app_secret
+LOGTO_BASE_URL=http://localhost:3000
+LOGTO_COOKIE_SECRET=your_cookie_secret
+LOGTO_SIGNING_KEY=your_logto_signing_key
+NODE_ENV=production
+```
+
+Replace `your_app_id`, `your_app_secret`, `your_cookie_secret`, and `your_logto_signing_key` with your actual values.
+
+## 3. Create Admin User
+
+1. Go to the User Management section in your Logto dashboard.
+2. Create a new user or select an existing user to be the admin.
+3. Note down the user ID of this admin user.
+
+<Tip>
+  You'll need this admin user ID for seeding your database in the next setup step.
+</Tip>
+
+## 4. Set Up Logto Webhook
+
+To automatically save user data in your D1 database when a new user is created, you need to set up a webhook in Logto:
+
+1. In your Logto dashboard, go to "Webhooks" and click "Create webhook".
+2. Set the following details:
+   - Name: `my awsome app`
+   - Endpoint URL: `https://yourdomain.com/api/logto-webhook`
+   - Events: Check the "User.Created" event
+3. After creating the webhook, copy the Signing Key provided by Logto.
+4. Add the Signing Key to your `.env` file as `LOGTO_SIGNING_KEY`.
+
+<img src="/images/logto-webhook-setup.png" alt="Logto Webhook Setup" />
+
+## 5. Implement Webhook Handler
+
+ShadcnKit includes a pre-configured webhook handler that listens for the "User.Created" event and saves the user data to your D1 database. You don't need to modify this unless you want to customize the behavior.
+
+The webhook handler is located at `app/api/logto-webhook/route.ts`.
+
+## How Logto Authentication Works
+
+Logto provides a secure, OAuth 2.0 compliant authentication flow:
+
+1. User clicks "Sign In" in your app.
+2. They're redirected to Logto's login page.
+3. After successful login, they're redirected back to your app with an authentication token.
+4. ShadcnKit uses this token to authenticate API requests.
+5. When a new user is created, Logto sends a webhook to your app, which then saves the user data in your D1 database.
+
+## Next Steps
+
+ShadcnKit supports various OAuth providers through Logto, including Google, GitHub, and Facebook. 
+
+<Card title="Configure OAuth Providers" icon="arrow-right" href="/oauth-setup">
+  Learn how to add OAuth providers to your ShadcnKit application.
+</Card>
+
+By completing this setup, you've configured Logto for your ShadcnKit project, created an admin user, and set up a webhook to automatically save user data. You're now ready to manage authentication and user data in your application!
