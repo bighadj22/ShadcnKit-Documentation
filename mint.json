@@ -47,10 +47,10 @@
     {
       "group": "Prerequisites",
       "pages": [
-        "Cloudflare" ,
-        "Logto" ,
-        "Stripe" ,
-        "Resend" 
+        "cloudflare" ,
+        "logto" ,
+        "stripe" ,
+        "resend" 
       ]
     },
     {
