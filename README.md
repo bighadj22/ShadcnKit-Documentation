@@ -1,32 +1,24 @@
-# Mintlify Starter Kit
+# ShadcnKit Documentation
 
-Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
+Welcome to the official documentation for **ShadcnKit**! This repository provides everything you need to understand and work with ShadcnKit, a powerful Next.js starter kit.
 
-- Guide pages
-- Navigation
-- Customizations
-- API Reference pages
-- Use of popular components
+## Overview
 
-### Development
+ShadcnKit simplifies full-stack development with built-in support for:
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command
+- Authentication
+- Databases
+- Hosting
+- Payments
+- UI Components
+- And more!
 
-```
-npm i -g mintlify
-```
+Whether you're looking to dive into the setup process or explore advanced features, this documentation will guide you through it.
 
-Run the following command at the root of your documentation (where mint.json is)
+> **Pro Tip**: Check out the guides for step-by-step instructions on how to integrate ShadcnKit features into your projects.
 
-```
-mintlify dev
-```
+For more information on the main project, visit the [ShadcnKit Repository](https://github.com/your-username/shadcnkit).
 
-### Publishing Changes
+## Get Involved
 
-Install our Github App to auto propagate changes from your repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard. 
-
-#### Troubleshooting
-
-- Mintlify dev isn't running - Run `mintlify install` it'll re-install dependencies.
-- Page loads as a 404 - Make sure you are running in a folder with `mint.json`
+Contributions are welcome! Feel free to submit issues, suggestions, or improvements to enhance the documentation.
