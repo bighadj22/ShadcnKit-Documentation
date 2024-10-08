@@ -82,39 +82,7 @@ ShadcnKit includes a pre-configured webhook handler at `app/api/stripe-webhook/r
 
 For local development:
 
-1. Install the [Stripe CLI](https://stripe.com/docs/stripe-cli).
-2. Run the following command to forward webhooks to your local server:
-
-```bash
-stripe listen --forward-to localhost:3000/api/stripe-webhook
-```
-
-3. The Stripe CLI will provide a webhook signing secret. Add this to your `.env` file as `STRIPE_WEBHOOK_SECRET` for local development.
-
-## 6. Seed Initial Data (Optional)
-
-If you want to seed your local database with initial product and price data:
-
-1. Ensure your local D1 database is set up.
-2. Run the following command:
-
-```bash
-npx wrangler d1 execute your-database-name --local --file=./db/seed.sql
-```
-
-Replace `your-database-name` with your actual D1 database name.
-
-## 7. Testing the Setup
-
-1. Start your local development server:
-
-```bash
-npm run dev
-```
-
-2. Navigate to your pricing page and attempt to subscribe to a plan.
-3. Use Stripe test card numbers to simulate successful and failed payments.
-4. Check your Stripe dashboard and local database to confirm that subscriptions are being created and recorded correctly.
+To do ..............
 
 ## Next Steps
 

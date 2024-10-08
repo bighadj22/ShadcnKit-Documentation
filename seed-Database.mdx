@@ -21,7 +21,7 @@ VALUES ('your-logto-user-id', 'your-email@example.com', 'admin');
 ```
 
 <Tip>
-  To Create your Logto user ID, refer to the [wrangler d1 create your-database-name](https://docs.shadcnkit.com/logto-Setup).
+  To Create your Logto user ID, refer to the [Logto Setup for ShadcnKit](https://docs.shadcnkit.com/logto-Setup).
 </Tip>
 
 Now, seed your database:
@@ -60,7 +60,7 @@ npx drizzle-kit introspect:sqlite --driver=libsql --out=./db --url="file:path/to
 
 Replace `path/to/your/database.sqlite` with the path you copied in step 2.
 
-This command will generate (or update) the `schema.ts` file in your `db` directory.
+This command will generate the `schema.ts` file in your `db` directory.
 
 <Note>
   ShadcnKit already includes a pre-generated `schema.ts`. You only need to regenerate it if you've made changes to your database structure.

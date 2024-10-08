@@ -20,9 +20,6 @@ ShadcnKit uses Resend for sending transactional emails, including welcome emails
 1. In the Resend dashboard, go to the "Domains" section.
 2. Click "Add Domain" and enter your domain name.
 3. Resend will provide you with DNS records to add to your domain:
-   - Add the provided DKIM record
-   - Add the provided Return-Path record
-   - Add the provided SPF record (or update existing one)
 
 4. If using Cloudflare, add these records in your Cloudflare DNS settings.
 5. Wait for Resend to verify your domain (this may take up to 24 hours).
@@ -72,8 +69,6 @@ ShadcnKit also sends a "CompleteRegistration" event to Facebook's Conversion API
 
 With Resend set up, your ShadcnKit project is ready to send professional, customized transactional emails. Consider expanding your email strategy to include:
 
-- Password reset emails
-- Account verification emails
 - Subscription confirmation emails
 - Product update newsletters
 
