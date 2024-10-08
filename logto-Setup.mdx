@@ -3,7 +3,8 @@ title: 'Logto Setup for ShadcnKit'
 description: 'Configure Logto authentication and webhooks for your ShadcnKit project'
 ---
 
-# Logto Setup for ShadcnKit
+<img src="/images/shadcnkit-logto-account.gif" alt="Logto Setup for ShadcnKit" />
+
 
 ShadcnKit comes pre-configured with Logto for authentication and uses Cloudflare D1 as its database. This guide will help you set up Logto, create an admin user, and configure webhooks to save user data in your D1 database.
 
@@ -16,12 +17,15 @@ ShadcnKit comes pre-configured with Logto for authentication and uses Cloudflare
    - App Secret
    - Logto Endpoint
 
+<img src="/images/shadcnkit-logto-app.gif" alt="Create a Logto Application" />
+
+
 ## 2. Configure Environment Variables
 
 Add the following to your `.env` file:
 
 ```env
-LOGTO_ENDPOINT=https://auth.shadcnkit.com/
+LOGTO_ENDPOINT=https://auth.mydoamin.com/
 LOGTO_APP_ID=your_app_id
 LOGTO_APP_SECRET=your_app_secret
 LOGTO_BASE_URL=http://localhost:3000
@@ -37,6 +41,8 @@ Replace `your_app_id`, `your_app_secret`, `your_cookie_secret`, and `your_logto_
 1. Go to the User Management section in your Logto dashboard.
 2. Create a new user or select an existing user to be the admin.
 3. Note down the user ID of this admin user.
+
+<img src="/images/shadcnkit-logto-admin.gif" alt="Create Logto Admin User" />
 
 <Tip>
   You'll need this admin user ID for seeding your database in the next setup step.
