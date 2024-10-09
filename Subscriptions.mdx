@@ -1,0 +1,140 @@
+---
+title: 'Stripe Subscriptions in ShadcnKit'
+description: 'shadcnkit provides a foundation for building applications with subscription-based access control and resource limits.'
+---
+
+Let's dive into the details of how it works and how you can extend it to fit your needs.
+
+## Overview
+
+shadcnkit consists of several key components:
+
+1. **Subscription Plans**: Defined in `constants/plans.ts`, this file contains the available subscription plans and their associated resource limits.
+2. **Middleware**: Located in `middlewares/subscriptionCheck.ts`, the middleware checks the user's subscription and enforces resource limits.
+3. **API Routes**: The API routes in `app/api` handle CRUD operations for notes and tasks while utilizing the subscription middleware.
+4. **Database Service**: The `utils/drizzle/notesTasksFoldersService.ts` file contains functions for interacting with the database, including usage tracking.
+
+## Adding New Subscription Plans
+
+To add a new subscription plan, follow these steps:
+
+1. Open `constants/plans.ts`.
+2. Add a new entry to the `PLANS` object with the desired plan name and resource limits.
+3. If the plan is associated with a specific price ID, add a new entry to the `PRICE_ID_TO_PLAN` object, mapping the price ID to the plan name.
+4. Save the file.
+
+Example:
+
+```typescript
+export const PLANS = {
+  // ... existing plans ...
+  NEW_PLAN_MONTHLY: {
+    name: 'New Plan (Monthly)',
+    noteLimit: 100,
+    taskLimit: 100,
+    folderLimit: 10,
+  },
+};
+
+export const PRICE_ID_TO_PLAN: { [key: string]: string } = {
+  // ... existing price ID mappings ...
+  'price_new_plan_monthly': 'NEW_PLAN_MONTHLY',
+};
+```
+
+## Adding New Resource Limits
+
+To add new resource limits, follow these steps:
+
+1. Open `constants/plans.ts`.
+2. Add a new property to each plan in the `PLANS` object, specifying the limit for the new resource.
+3. Open `middlewares/subscriptionCheck.ts`.
+4. Update the `SubscriptionLimits` interface to include the new resource limit.
+5. Update the `resourceKeyToPlanLimitKey` object to map the new resource key to the corresponding plan limit key.
+6. Save the files.
+
+Example:
+
+```typescript
+// constants/plans.ts
+export const PLANS = {
+  FREE: {
+    name: 'Discover',
+    noteLimit: 5,
+    taskLimit: 5,
+    folderLimit: 1,
+    newResourceLimit: 10, // Add the new resource limit
+  },
+  // ... other plans ...
+};
+
+// middlewares/subscriptionCheck.ts
+export interface SubscriptionLimits {
+  note?: number;
+  task?: number;
+  newResource?: number; // Add the new resource to the interface
+}
+
+const resourceKeyToPlanLimitKey: { [key in keyof SubscriptionLimits]: keyof typeof plan } = {
+  note: 'noteLimit',
+  task: 'taskLimit',
+  newResource: 'newResourceLimit', // Map the new resource key to the plan limit key
+};
+```
+
+## Adding New API Routes
+
+To add a new API route, follow these steps:
+
+1. Create a new file in `app/api` for your resource (e.g., `app/api/newResource/route.ts`).
+2. Implement the desired API route handlers (e.g., `GET`, `POST`, `PUT`, `DELETE`).
+3. Import the `checkSubscription` middleware and apply it to the route handlers that require subscription checks.
+4. Define the necessary subscription limits for each route handler.
+5. Implement the corresponding database service functions in `utils/drizzle/notesTasksFoldersService.ts` (or create a new service file for your resource).
+6. Save the files.
+
+Example:
+
+```typescript
+// /app/api/newResource/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import { checkSubscription, SubscriptionLimits } from '@/middlewares/subscriptionCheck';
+import { createNewResource, getNewResources } from '@/utils/drizzle/notesTasksFoldersService';
+
+export async function GET(request: NextRequest) {
+  const limits: SubscriptionLimits = {};
+  return checkSubscription(request, limits, async (userId) => {
+    const result = await getNewResources(userId);
+    return new NextResponse(JSON.stringify({ data: result }), { status: 200 });
+  });
+}
+
+export async function POST(request: NextRequest) {
+  const limits: SubscriptionLimits = { newResource: 1 };
+  return checkSubscription(request, limits, async (userId) => {
+    const body = await request.json();
+    const newResource = await createNewResource(userId, body);
+    return new NextResponse(JSON.stringify({ data: newResource }), { status: 201 });
+  });
+}
+```
+
+## How the Middleware Works
+
+The `checkSubscription` middleware in `middlewares/subscriptionCheck.ts` performs the following steps:
+
+1. Authenticates the user using the `requireAuth` function.
+2. Retrieves the user's subscription details from the database using the `getSubscription` function.
+3. Determines the user's current subscription plan based on the price ID.
+4. Iterates over the provided `limits` object, which specifies the resource limits to check.
+5. For each resource type, retrieves the current usage count from the database using the `getUsageTracking` function.
+6. Compares the current usage count plus the increment value (if provided) against the plan's limit for that resource type.
+7. If the usage exceeds the limit, returns a `403 Forbidden` response indicating that the plan limit has been reached.
+8. If all checks pass, calls the provided `handler` function, passing the user ID.
+9. Returns the response from the handler function.
+
+The middleware is designed to be flexible and reusable across different API routes. You can apply it to any route handler that requires subscription-based access control.
+
+Remember to update the corresponding database service functions and middleware configuration whenever you make changes to the subscription plans or resource limits.
+
+If you have any further questions or need assistance, please don't hesitate to reach out. Happy coding!

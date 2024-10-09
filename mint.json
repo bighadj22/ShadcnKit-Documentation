@@ -74,6 +74,14 @@
     },
 
     {
+      "group": "Subscriptions",
+      "pages": [
+        "Subscriptions"
+        
+      ]
+    },
+
+    {
       "group": "OAuth providers",
       "pages": [
         "OAuthproviders"
