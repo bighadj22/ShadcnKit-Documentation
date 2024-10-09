@@ -72,6 +72,14 @@
         
       ]
     },
+
+    {
+      "group": "OAuth providers",
+      "pages": [
+        "OAuthproviders"
+        
+      ]
+    },
     {
       "group": "Styling",
       "pages": [
@@ -79,6 +87,16 @@
         
       ]
     },
+
+    {
+      "group": "Deployment",
+      "pages": [
+        "Deployment"
+        
+      ]
+    },
+
+  
 
     {
       "group": "Internationalization",
